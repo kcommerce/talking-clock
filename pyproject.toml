@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "talking-clock"
+version = "1.0.0"
+description = "A cross-platform Python library for audio time announcement using MP3 files."
+readme = "README.md"
+requires-python = ">=3.7"
+authors = [
+    { name = "Billy" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+]
+dependencies = []
+
+[project.scripts]
+talking-clock = "test_talking_clock:main"
