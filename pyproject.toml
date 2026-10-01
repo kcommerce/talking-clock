@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thai-talking-clock"
-version = "1.0.0"
+version = "1.0.1"
 description = "A cross-platform Python library for audio time announcement using MP3 files."
 readme = "README.md"
 requires-python = ">=3.7"
 authors = [
-    { name = "Billy" }
+    { name = "Sakchart Ngamluan" }
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -20,8 +20,8 @@ classifiers = [
 dependencies = []
 
 [project.scripts]
-thai-talking-clock = "test_talking_clock:main"
-talking-clock = "test_talking_clock:main"
+thai-talking-clock = "talking_clock.cli:main"
+talking-clock = "talking_clock.cli:main"
 
 [tool.setuptools]
 packages = ["talking_clock", "mp3-thai-clock"]
