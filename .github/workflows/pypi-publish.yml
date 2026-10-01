@@ -49,8 +49,7 @@ jobs:
 
       - name: Publish Package to PyPI
         env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME || vars.PYPI_USERNAME || '__token__' }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
           twine upload --skip-existing dist/*
-
