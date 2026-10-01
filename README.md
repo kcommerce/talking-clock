@@ -1,6 +1,10 @@
-# Talking Clock Python Library
+# Thai Talking Clock Python Library (`thai-talking-clock`)
 
 A cross-platform Python library and test suite for a **Talking Clock** that evaluates time as integer hours, minutes, and seconds, builds the corresponding MP3 playback sequence, and auto-detects system commands to play audio on **macOS**, **Linux**, and **Windows**.
+
+```bash
+pip install thai-talking-clock
+```
 
 ---
 
