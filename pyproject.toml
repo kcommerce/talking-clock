@@ -21,3 +21,10 @@ dependencies = []
 
 [project.scripts]
 talking-clock = "test_talking_clock:main"
+
+[tool.setuptools]
+packages = ["talking_clock", "mp3-thai-clock"]
+
+[tool.setuptools.package-data]
+"*" = ["*.mp3"]
+

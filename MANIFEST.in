@@ -1,0 +1,6 @@
+graft mp3-thai-clock
+include README.md
+include pyproject.toml
+include test_talking_clock.py
+include example.py
+recursive-include talking_clock *.py
