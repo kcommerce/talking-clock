@@ -26,6 +26,7 @@ class TalkingClock:
         mp3_dir: Optional[str] = None,
         player: Optional[SystemAudioPlayer] = None,
         use_12_hour: bool = False,
+        allow_dummy: bool = True,
     ):
         """Initialize Talking Clock.
 
@@ -33,9 +34,10 @@ class TalkingClock:
             mp3_dir: Path to directory containing MP3 audio files. If None, resolves default directory.
             player: SystemAudioPlayer instance. If None, auto-creates and detects system player.
             use_12_hour: If True, converts 24-hour hour (0-23) to 12-hour format (1-12). Default False (0-23).
+            allow_dummy: If True, allows falling back to dummy silent player when no system player is found.
         """
         self.mp3_dir = self._resolve_mp3_dir(mp3_dir)
-        self.player = player or SystemAudioPlayer()
+        self.player = player or SystemAudioPlayer(allow_dummy=allow_dummy)
         self.use_12_hour = use_12_hour
 
     def _resolve_mp3_dir(self, custom_dir: Optional[str]) -> str:

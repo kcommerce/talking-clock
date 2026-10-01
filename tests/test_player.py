@@ -11,7 +11,8 @@ from talking_clock.exceptions import AudioPlayerNotFoundError, AudioPlaybackErro
 class TestSystemAudioPlayer(unittest.TestCase):
     """Test suite for SystemAudioPlayer."""
 
-    def test_os_detection(self):
+    @patch("shutil.which", return_value="/usr/bin/mock_player")
+    def test_os_detection(self, mock_which):
         with patch("platform.system", return_value="Darwin"):
             player = SystemAudioPlayer()
             self.assertEqual(player.os_type, "darwin")
@@ -69,7 +70,12 @@ class TestSystemAudioPlayer(unittest.TestCase):
     def test_no_player_found_raises_exception(self, mock_which):
         with patch("platform.system", return_value="Linux"):
             with self.assertRaises(AudioPlayerNotFoundError):
-                SystemAudioPlayer()
+                SystemAudioPlayer(allow_dummy=False)
+
+    @patch("shutil.which", return_value=None)
+    def test_dummy_player_fallback(self, mock_which):
+        player = SystemAudioPlayer(allow_dummy=True)
+        self.assertEqual(player.detected_player["name"], "dummy")
 
     @patch("shutil.which")
     def test_preferred_player_override(self, mock_which):
@@ -80,7 +86,8 @@ class TestSystemAudioPlayer(unittest.TestCase):
 
     @patch("subprocess.Popen")
     @patch("os.path.isfile", return_value=True)
-    def test_play_file_blocking(self, mock_isfile, mock_popen):
+    @patch("shutil.which", return_value="/usr/bin/mock_player")
+    def test_play_file_blocking(self, mock_which, mock_isfile, mock_popen):
         mock_process = MagicMock()
         mock_process.wait.return_value = 0
         mock_popen.return_value = mock_process
@@ -91,7 +98,8 @@ class TestSystemAudioPlayer(unittest.TestCase):
         mock_process.wait.assert_called_once()
 
     @patch("os.path.isfile", return_value=False)
-    def test_play_file_nonexistent_raises(self, mock_isfile):
+    @patch("shutil.which", return_value="/usr/bin/mock_player")
+    def test_play_file_nonexistent_raises(self, mock_which, mock_isfile):
         player = SystemAudioPlayer()
         with self.assertRaises(FileNotFoundError):
             player.play_file("nonexistent.mp3")

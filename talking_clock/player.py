@@ -154,14 +154,23 @@ class SystemAudioPlayer:
         ],
     }
 
-    def __init__(self, preferred_player: Optional[str] = None):
+    DUMMY_PLAYER: Dict[str, Any] = {
+        "name": "dummy",
+        "binary": "true",
+        "args": ["{file}"],
+        "description": "Dummy silent player for testing / headless environments",
+    }
+
+    def __init__(self, preferred_player: Optional[str] = None, allow_dummy: bool = False):
         """Initialize SystemAudioPlayer.
 
         Args:
             preferred_player: Optional player name or command executable to force use.
+            allow_dummy: If True, falls back to a dummy silent player when no system player is installed.
         """
         self.os_type = self._detect_os()
         self.preferred_player = preferred_player
+        self.allow_dummy = allow_dummy
         self.detected_player = self.detect_player()
 
     @staticmethod
@@ -219,6 +228,9 @@ class SystemAudioPlayer:
                     "args": candidate["args"],
                     "description": candidate["description"],
                 }
+
+        if self.allow_dummy:
+            return self.DUMMY_PLAYER
 
         raise AudioPlayerNotFoundError(
             f"No compatible MP3 audio player found on system ({self.os_type}). "
